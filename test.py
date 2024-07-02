@@ -1,14 +1,7 @@
 import requests
 import json
 import os
-
-# year = 2021
-# month = 12
-# day = 13
-# url = f'https://api.sportradar.us/nba/trial/v8/en/games/{year}/{month}/{day}/schedule.json'
-# query_params = {'api_key': 'Hd2iYBwQMv8SHuOEcLuxC5dZE1eW4XHg4ZC8jxuE'}
-# r = requests.get(url, params=query_params)
-# print(r.json())
+from key import query_params
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 file_path = os.path.join(current_dir, "dummy.json")
@@ -16,5 +9,23 @@ file_path = os.path.join(current_dir, "dummy.json")
 with open(file_path) as fp:
     data = json.load(fp)
 
-for game in data["games"]:
-    print(game["away"]["alias"], " @ ", game["home"]["alias"])
+class DailyGames:
+    def __init__(self, year, month, day) -> None:
+        self.year = year
+        self.month = month
+        self.day = day
+    
+    def get_games(self):
+        url = f'https://api.sportradar.us/nba/trial/v8/en/games/{self.year}/{self.month}/{self.day}/schedule.json'
+        r = requests.get(url, params=query_params)
+        data2 = r.json()
+        list = []
+        for game in data2["games"]:
+            list.append(f"{game['away']['alias']} @ {game['home']['alias']}")
+        return list
+
+    def get_dummy_data(self):
+        games_list = []
+        for game in data["games"]:
+            games_list.append(f"{game['away']['alias']} @ {game['home']['alias']}")
+        return games_list
