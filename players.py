@@ -16,4 +16,5 @@ def player_list(id):
 
         x_missed = [i[0] for i in x]
         y_missed = [i[1] for i in x]
+
         shotchart.shot_chart(x_made, y_made, x_missed, y_missed, selected_player)
